@@ -278,6 +278,7 @@ export default function Car() {
 
                     <Input<number>
                         label="Preço de venda"
+                        symbol="R$"
                         type="number"
                         min={0}
                         step="0.01"

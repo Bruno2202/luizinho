@@ -237,7 +237,7 @@ export default function AddMovement() {
 
     return (
         <MainLayout>
-            <div className="flex flex-col h-full min-h-screen w-full bg-lightGrey p-8">
+            <div className="flex flex-col min-h-screen w-full bg-lightGrey p-8 items-left overflow-y-auto">
                 <p className="text-black font-bold text-3xl mb-12 text-left w-full">
                     Adcionar Movimentação
                 </p>
@@ -303,6 +303,7 @@ export default function AddMovement() {
                                 label="Valor da compra"
                                 type="number"
                                 min={0}
+                                symbol="R$"
                                 step="0.01"
                                 onBlur={(e) => {
                                     const value = parseFloat(e.target.value);
@@ -348,12 +349,7 @@ export default function AddMovement() {
                                 type="number"
                                 min={0}
                                 step="0.01"
-                                onBlur={(e) => {
-                                    const value = parseFloat(e.target.value);
-                                    if (!isNaN(value)) {
-                                        setCostValue(parseFloat(value.toFixed(2)));
-                                    }
-                                }}
+                                symbol="R$"
                             />
                             <Input<number>
                                 setTerm={setSaleValue}
@@ -362,12 +358,7 @@ export default function AddMovement() {
                                 type="number"
                                 min={0}
                                 step="0.01"
-                                onBlur={(e) => {
-                                    const value = parseFloat(e.target.value);
-                                    if (!isNaN(value)) {
-                                        setSaleValue(parseFloat(value.toFixed(2)));
-                                    }
-                                }}
+                                symbol="R$"
                             />
                             <Input<string>
                                 label="Comprador"

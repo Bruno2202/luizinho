@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import Sidebar from "../components/sidebar/Sidebar";
 import MainLayout from "../layouts/MainLayout";
 
 export default function Home() {

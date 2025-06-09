@@ -75,7 +75,7 @@ export default function Movement() {
 
     return (
         <MainLayout>
-            <div className="flex flex-col h-full min-h-screen w-full bg-lightGrey p-8 items-center">
+            <div className="flex flex-col h-full min-h-screen w-full bg-lightGrey p-8 items-center overflow-y-auto">
                 <p className="text-black font-bold text-3xl mb-12 text-left w-full">
                     Entradas e Saídas
                 </p>
