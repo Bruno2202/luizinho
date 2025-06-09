@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router";
-import { ArrowRightLeft, BookText, CarFront, CopyPlus, PanelRight, Settings } from "lucide-react";
+import { ArrowRightLeft, BookText, CarFront, CopyPlus, LogOut, PanelRight, Settings } from "lucide-react";
 import Option from "./Option";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState<boolean>(true);
 
+    const { setAuthToken } = useContext(AuthContext)!;
+
     const navigate: NavigateFunction = useNavigate();
+
+    function logout() {
+        setAuthToken("");
+        localStorage.removeItem("authToken");
+        navigate("/");
+    }
 
     return (
         <aside
-            className={`flex flex-col w-auto text-white h-full p-2`}
+            className={`flex flex-col w-auto text-white h-screen p-2`}
         >
             <div className="flex flex-row justify-between mb-8">
                 <img
@@ -46,6 +55,15 @@ export default function Sidebar() {
                     text="Configurações da Loja"
                     onClick={() => navigate('/store')}
                 />
+            </div>
+            <div className="flex items-end h-full p-2">
+                <div
+                    className="flex items-center flex-row gap-2 w-auto cursor-pointer"
+                    onClick={() => logout()}
+                >
+                    <LogOut className="text-red" size={20} />
+                    <p className="text-black font-semibold">Sair</p>
+                </div>
             </div>
         </aside>
     );
