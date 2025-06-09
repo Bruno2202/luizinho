@@ -15,5 +15,5 @@ export interface ClientModel {
     zipCode?: string     | null;
     cityId: number | null;
 
-    city: CityModel;
+    city?: CityModel;
 }
