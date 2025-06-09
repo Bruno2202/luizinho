@@ -13,5 +13,6 @@ export const ENDPOINTS = {
     state: '/state',
     transmission: '/transmission',
     type: '/type',
-    store: '/store'
+    store: '/store',
+    auth: '/auth'
 };
