@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Input from "../../components/inputs/Input";
 import MainLayout from "../../layouts/MainLayout";
 import { ClientService } from "../../api/services/clientService";
@@ -6,6 +6,9 @@ import { CarService } from "../../api/services/carService";
 import Button from "../../components/Button";
 import { ClientModel } from "../../core/models/ClientModel";
 import { CarModel } from "../../core/models/CarModel";
+import DateTime from "../../components/inputs/DateTime";
+import { extractDateTime } from "../../utils/formatDateTime";
+import { Minus, Plus } from "lucide-react";
 
 export default function SalesContract() {
     const [buyerName, setBuyerName] = useState<string | null>(null);
@@ -20,16 +23,34 @@ export default function SalesContract() {
     const [contractValue, setContractValue] = useState<number | null>(null);
     const [paymentCondition, setPaymentCondition] = useState<string>("");
 
+    const [contractDateTime, setContractDateTime] = useState<string>("");
+
     const [observation, setObservation] = useState<string[]>([
         "Caso o vendedor não receba em prazo acima citado os valores, terá direito de retomada imediata de posse do veículo e receber multa rescisória de 10%(DEZ por cento) sobre o valor do contrato, com custos e honorários por conta do comprador.",
         "O vendedor responsabiliza-se civil e criminalmente por qualquer eventualidade com relação a multas de trânsito ou qualquer natureza nas prestações, débitos de ônus. alienações fiduciárias ou reserva de domínio que sejam gerados até a presente data, com relação ao veiculo.",
         "O comprador assume todas as responsabilidades acima citadas, que sejam geradas a partir da presente data e declara estar ciente que adquiriu o veículo acima descrito."
     ]);
 
-    function createContract() {
-        console.log(seller)
-        console.log(buyer)
+    const { day, month, year, hour } = extractDateTime(contractDateTime || new Date().toISOString());
 
+    function handleObservationChange(index: number, value: string) {
+        const updated = [...observation];
+        updated[index] = value;
+        setObservation(updated);
+    }
+
+    function addObservation() {
+        setObservation([...observation, ""]);
+    }
+
+    function removeObservation(index: number) {
+        const updated = [...observation];
+        updated.splice(index, 1);
+        setObservation(updated);
+    }
+
+
+    function createContract() {
         const contratoHTML = `
             <!DOCTYPE html>
             <html>
@@ -46,12 +67,12 @@ export default function SalesContract() {
                     p {
                         margin-bottom: 10px;
                     }
-                    .assinatura {
+                    .signature {
                         margin-top: 60px;
                         display: flex;
                         justify-content: space-between;
                     }
-                    .assinatura div {
+                    .signature div {
                         width: 45%;
                         text-align: center;
                         border-top: 1px solid #000;
@@ -70,19 +91,14 @@ export default function SalesContract() {
                 
                 <br>
 
-                <h3>Vendedor: ${seller?.name}</h3>
-                <p><strong>CPF:</strong> ${seller?.cpf}</p>
-                <p><strong>Endereço:</strong> ${seller?.address ?? "__________"}, ${seller?.number ?? ""} - ${seller?.neighborhood ?? "__________"}</p>
-                <p><strong>Cidade:</strong> ${seller?.city ? `${seller?.city.name} - ${seller?.city.ufId}` : "__________"}</p>
-                <p><strong>Fone:</strong> ${seller?.contact ?? "__________"} <strong>CPF:</strong> ${seller?.cpf ?? "__________"} <strong>RG:</strong> ${seller?.rg ?? "__________"}</p>
+                <h3>Veículo adquirido: ${vehicle?.description}</h3>
+                <p><strong>Placa:</strong> ${vehicle?.plate} <strong>Ano/Mod:</strong> ${vehicle?.manufactureYear}/${vehicle?.modelYear}</p>
+                <h3>Em nome de: ${seller?.name}</h3>
 
                 <br>
-
-                <h3>Informações do Veículo</h3>
-                <p><strong>Veículo:</strong> ${vehicleDescription}</p>
-
-                <p><strong>Valor do Contrato:</strong> R$ ${typeof contractValue === "number" ? contractValue.toFixed(2) : "__________"}</p>
-                <p><strong>Condição de Pagamento:</strong> ${paymentCondition}</p>
+                
+                <p><strong>Valor do Compra/Venda:</strong> R$ ${typeof contractValue === "number" ? contractValue.toFixed(2) : "__________"}</p>
+                <p><strong>Forma de Pagamento:</strong> ${paymentCondition}</p>
 
                 <br>
                 <h3>Observações:</h3>
@@ -92,9 +108,21 @@ export default function SalesContract() {
 
                 <br>
 
-                <div class="assinatura">
-                    <div>${buyer?.name}</div>
-                    <div>${seller?.name}</div>
+                <p><strong>Para que tenha efeitos legais, firmamos o presente.</strong></p>
+                <p><strong>De acordo.</strong></p>
+                <p><strong>Assis, ${day} de ${month} de ${year}, às ${hour} horas</strong></p>
+
+                <br>
+
+                <div class="signature">
+                    <div>
+                        ${buyer?.name}
+                        <p>Vendedor<p>
+                    </div>
+                    <div>
+                        ${seller?.name}
+                        <p>Comprador<p>
+                    </div>
                 </div>
             </body>
             </html>
@@ -124,10 +152,10 @@ export default function SalesContract() {
                         createContract();
                     }}
                 >
-                    <div className="flex flex-row flex-wrap gap-8 mb-4">
-                        <div>
+                    <div className="flex flex-row gap-8 mb-4">
+                        <div className="flex flex-col gap-2">
                             <Input
-                                label="Comprador"
+                                label="Comprador *"
                                 setTerm={setBuyerName}
                                 term={buyerName}
                                 setData={setBuyer}
@@ -138,7 +166,7 @@ export default function SalesContract() {
                                 required
                             />
                             <Input
-                                label="Vendedor"
+                                label="Vendedor *"
                                 setTerm={setSellerName}
                                 term={sellerName}
                                 setData={setSeller}
@@ -149,7 +177,7 @@ export default function SalesContract() {
                                 required
                             />
                             <Input
-                                label="Veículo"
+                                label="Veículo *"
                                 setTerm={setVehicleDescription}
                                 term={vehicleDescription}
                                 setData={setVehicle}
@@ -160,7 +188,8 @@ export default function SalesContract() {
                                 required
                             />
                             <Input
-                                label="Valor de compra/venda"
+                                label="Valor de compra/venda *"
+                                symbol="R$"
                                 setTerm={setContractValue}
                                 term={contractValue}
                                 required
@@ -168,29 +197,51 @@ export default function SalesContract() {
                                 type="number"
                             />
                             <Input
-                                label="Condição de pagamento"
+                                label="Condição de pagamento *"
                                 setTerm={setPaymentCondition}
                                 term={paymentCondition}
                                 required
                             />
+                            <DateTime
+                                label="Data e hora do contrato"
+                                dateTime={contractDateTime}
+                                onChangeDateTime={setContractDateTime}
+                            />
                         </div>
-                        <div className="flex flex-1 flex-row gap-4 w-full items-center justify-center">
-                            {observation.map((item, index) =>
-                                <div key={index} className="flex flex-col h-full w-full">
-                                    <p>Observação {index + 1}</p>
-                                    <textarea
-                                        readOnly
-                                        key={index}
-                                        rows={4}
-                                        value={item}
-                                        placeholder={`Observação ${index + 1}`}
-                                        className="resize-none w-full p-4 rounded-8 h-full border-2 border-grey outline-0"
-                                    />
-                                </div>
-                            )}
+                        <div className="flex flex-col w-full h-full gap-4">
+                            <div className="flex flex-col gap-4 overflow-y-auto max-h-96 pr-2">
+                                {observation.map((item, index) => (
+                                    <div key={index} className="flex flex-col h-full min-w-72 relative">
+                                        <div className="flex flex-row justify-between">
+                                            <label className="font-bold mb-1">Observação {index + 1}</label>
+                                            <p
+                                                className="cursor-pointer text-red font-semibold"
+                                                onClick={() => removeObservation(index)}
+                                            >
+                                                - Remover
+                                            </p>
+                                        </div>
+                                        <textarea
+                                            rows={4}
+                                            value={item}
+                                            onChange={(e) => handleObservationChange(index, e.target.value)}
+                                            placeholder={`Observação ${index + 1}`}
+                                            className="resize-none w-full p-4 rounded-8 h-full border-2 border-grey outline-0"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex">
+                                <Button
+                                    icon={Plus}
+                                    className="bg-blue"
+                                    text="Adicionar observação"
+                                    onClick={addObservation}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div className="flex">
                         <Button
                             text="Criar contrato"
                             className="bg-red"
