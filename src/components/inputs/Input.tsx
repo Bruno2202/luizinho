@@ -12,6 +12,7 @@ interface Props<T = string | number> extends InputHTMLAttributes<HTMLInputElemen
     searchFunctionByTerm?: (value: string) => Promise<any[]>;
     searchAllFunction?: () => Promise<any[]>;
     registerTo?: string;
+    symbol?: string;
 }
 
 export default function Input<T = string | number>({
@@ -24,6 +25,7 @@ export default function Input<T = string | number>({
     searchFunctionByTerm,
     searchAllFunction,
     registerTo,
+    symbol,
     ...props
 }: Props<T>) {
     const [searchData, setSearchData] = useState<any[]>([]);
@@ -80,8 +82,19 @@ export default function Input<T = string | number>({
             <label className="flex flex-col text-grey font-semibold">
                 {label}
                 <div className="flex flex-row">
-                        <input
-                        className={`${register ? "rounded-l-8" : "rounded-8"} border-2 border-grey outline-0 py-1 px-2 w-full`}
+                    {symbol &&
+                        <p className="rounded-l-8 border-l-2 border-t-2 border-b-2 border-grey outline-0 py-1 pl-2">
+                            {symbol}
+                        </p>
+                    }
+                    <input
+                        className={`
+                            border-2 border-grey outline-0 py-1 px-2 w-full
+                            ${!register && !symbol ? "rounded-8" : ""}
+                            ${register && !symbol ? "rounded-l-8" : ""}
+                            ${!register && symbol ? "rounded-r-8 rounded-l-0 border-l-0" : ""}
+                            ${register && symbol ? "border-l-0" : ""}
+                        `}
                         value={term ?? ""}
                         onChange={(e) => {
                             const inputValue = e.target.value;
