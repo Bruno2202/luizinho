@@ -7,11 +7,11 @@ interface Props {
 
 export default function MainLayout({ children }: Props) {
     return (
-        <div style={{ display: 'flex' }}>
+        <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <main className='flex flex-1'>
+            <main className="flex-1 overflow-y-auto">
                 {children}
             </main>
         </div>
     );
-};
+}
