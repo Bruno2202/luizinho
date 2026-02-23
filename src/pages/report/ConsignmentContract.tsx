@@ -161,7 +161,7 @@ export default function ConsignmentContract() {
                                 searchFunctionByTerm={ClientService.getClientByName}
                                 searchAllFunction={ClientService.getClients}
                                 required
-                                />
+                            />
                             <Input
                                 label="Veículo *"
                                 setTerm={setVehicleDescription}
@@ -172,7 +172,7 @@ export default function ConsignmentContract() {
                                 searchFunctionByTerm={CarService.getCarByDescription}
                                 searchAllFunction={CarService.getCars}
                                 required
-                                />
+                            />
                             <Input
                                 label="Valor de venda *"
                                 symbol="R$"
@@ -181,7 +181,7 @@ export default function ConsignmentContract() {
                                 required
                                 min={0}
                                 type="number"
-                                />
+                            />
                             <Input
                                 label="Percentual de comisão *"
                                 symbol="%"
@@ -190,7 +190,7 @@ export default function ConsignmentContract() {
                                 required
                                 min={0}
                                 type="number"
-                                />
+                            />
                             <Input
                                 label="Foro da Comarca *"
                                 setTerm={setCityName}
@@ -201,7 +201,7 @@ export default function ConsignmentContract() {
                                 searchFunctionByTerm={CityService.getCityByName}
                                 searchAllFunction={CityService.getCities}
                                 required
-                                />
+                            />
                             <DateTime
                                 label="Data e hora do contrato"
                                 dateTime={contractDateTime}

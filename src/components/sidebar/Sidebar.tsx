@@ -5,8 +5,6 @@ import Option from "./Option";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Sidebar() {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
-
     const { setAuthToken } = useContext(AuthContext)!;
 
     const navigate: NavigateFunction = useNavigate();
@@ -61,7 +59,7 @@ export default function Sidebar() {
                     className="flex items-center flex-row gap-2 w-auto cursor-pointer"
                     onClick={() => logout()}
                 >
-                    <LogOut className="text-red" size={20} />
+                    <LogOut className="text-red cursor-pointer" size={20} />
                     <p className="text-black font-semibold">Sair</p>
                 </div>
             </div>
