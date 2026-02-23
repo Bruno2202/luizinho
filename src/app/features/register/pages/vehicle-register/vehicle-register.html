@@ -1,0 +1,104 @@
+<div class="flex flex-col h-full min-h-screen w-full bg-slate-50 p-8">
+    <header class="mb-12">
+        <h1 class="font-bold text-3xl text-slate-800 tracking-tight">Cadastro de Veículos</h1>
+    </header>
+
+    <div class="flex items-center gap-4 mb-6">
+        <div class="w-full md:w-1/2">
+            <app-search-bar placeholder="Pesquisar veículo por descrição ou placa...">
+            </app-search-bar>
+        </div>
+
+        <!-- (onResultSelected)="onCarSelected($event)"> -->
+
+        <button type="button"
+            class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all shadow-sm">
+            <lucide-angular [img]="Plus"></lucide-angular>
+            Adicionar Novo
+        </button>
+    </div>
+
+    <form [formGroup]="vehicleForm" (submit)="onSubmit()" class="bg-white p-6 rounded-xl shadow-md">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Descrição *</label>
+                <input type="text" formControlName="description"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Placa *</label>
+                <input type="text" formControlName="plate" placeholder="ABC-1234"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                <select formControlName="colorId" class="w-full border-gray-300 rounded-md p-2 border">
+                    <option [value]="null">Selecione...</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+                <app-smart-input [register]="true" path="register/brand"></app-smart-input>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+                <app-smart-input [register]="true" path="register/model"></app-smart-input>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Ano Fabr./Modelo</label>
+                <div class="flex gap-2">
+                    <input type="number" formControlName="manufactureYear" placeholder="Fabr."
+                        class="w-1/2 border-gray-300 rounded-md p-2 border">
+                    <input type="number" formControlName="modelYear" placeholder="Modelo"
+                        class="w-1/2 border-gray-300 rounded-md p-2 border">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Preço de Venda</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-2 text-gray-500">R$</span>
+                    <input type="number" class="w-full pl-10 border-gray-300 rounded-md p-2 border" step="0.01">
+                </div>
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Renavam / Chassi</label>
+                <div class="flex gap-2">
+                    <input type="text" formControlName="renavam" placeholder="Renavam"
+                        class="w-full border-gray-300 rounded-md p-2 border">
+                    <input type="text" formControlName="chassis" placeholder="Chassi"
+                        class="w-full border-gray-300 rounded-md p-2 border">
+                </div>
+            </div>
+
+            <div class="md:col-span-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Observação</label>
+                <textarea formControlName="observation" rows="3"
+                    class="w-full border-gray-300 rounded-md p-2 border shadow-sm"></textarea>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-100">
+            <!-- @if (selectedCarId()) {
+            <button type="button" (click)="deleteVehicle()"
+                class="flex items-center gap-2 text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition-all">
+                <lucide-icon name="trash" class="w-4 h-4"></lucide-icon>
+                Excluir Registro
+            </button>
+            } -->
+
+            <button type="submit" [disabled]="vehicleForm.invalid"
+                class="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-8 py-2 rounded-lg transition-all shadow-md">
+                <lucide-angular [img]="Save"></lucide-angular>
+                Salvar Veículo
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,33 @@
+<main class="flex felx-row items-center justify-center h-screen w-screen">
+    <div class="p-4 bg-neutral-200 w-3/5 h-full">
+
+    </div>
+    <div class="flex flex-col items-center justify-center p-4 bg-white w-2/5 h-full gap-8">
+        <h1 class="text-2xl font-bold">Entrar</h1>
+
+        <form [formGroup]="loginForm" (submit)="onSubmit()" class="flex flex-col w-1/2">
+            <label class="flex flex-col text-sm font-semibold gap-1 my-2">
+                E-mail
+                <input
+                    class="border border-black rounded-lg p-2 outline-none focus:ring focus:ring-black transition-all w-full font-normal"
+                    placeholder="seu@email.com" 
+                    formControlName="email"
+                    type="email"
+                    required
+                />
+            </label>
+
+            <label class="flex flex-col text-sm font-semibold gap-1 my-2">
+                Senha
+                <input
+                    class="border border-black rounded-lg p-2 outline-none focus:ring focus:ring-black transition-all w-full font-normal"
+                    placeholder="Entre com sua senha" 
+                    formControlName="password"
+                    type="password"
+                />
+            </label>
+
+            <button type="submit" class="bg-blue-600 text-white rounded-lg w=full font-semibold p-2 cursor-pointer my-8">Entrar</button>
+        </form>
+    </div>
+</main>

@@ -1,0 +1,19 @@
+<div>
+    <div class="flex flex-row ">
+        <input 
+            class="w-full border-gray-300 p-2 border outline-none"
+            [class]="register ? 'rounded-l-md': 'rounded-md'"
+        />
+        @if (register) {
+            <span class="flex items-center justify-center p-2 bg-neutral-600 rounded-r-md cursor-pointer" (click)="navigate()">
+                <lucide-angular [img]="Plus" class="text-white" ></lucide-angular>
+            </span>
+        }
+    </div>
+
+    @if (register) {
+        <div class="">
+            
+        </div>
+    }
+</div>
